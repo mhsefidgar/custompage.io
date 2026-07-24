@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>Skillly App</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #0f172a;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="appFrame" src="YOUR_APPS_SCRIPT_WEB_APP_URL"></iframe>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const iframe = document.getElementById('appFrame');
+
+    // Send Telegram user data to Apps Script once iframe loads
+    iframe.onload = () => {
+      const userData = tg.initDataUnsafe.user || { id: 123456, first_name: "Test User" };
+      iframe.contentWindow.postMessage({ type: 'TG_USER_DATA', user: userData }, '*');
+    };
+  </script>
+</body>
+</html>
